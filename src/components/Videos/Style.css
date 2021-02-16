@@ -1,0 +1,41 @@
+.videoCard {
+    /* border: 1px solid black; */
+    height: 200px;
+    width: 275px;
+    margin: 0px 5px 5px 0px;
+    /* float: left; */
+    /* flex-grow: 4; */
+}
+
+.videoThumbnail {
+    width: 100%;
+    height: 70%;
+    background: black;
+    cursor: pointer;
+    border: 1px solid #bbbbbb;
+    /* padding: 5px;
+    box-shadow: -1px 1px #dfdfdf, -2px 2px #cccccc; */
+}
+
+
+.videoDecription {
+    display: flex;
+    flex-wrap: wrap; 
+}
+
+.videoDecription p{
+    flex: 1 0 100%;
+    margin-bottom: 1px;
+}
+
+.videoDecription button{
+    padding: 0px 8px 0px 8px;
+    height: 2.0rem;
+    margin: 1px;
+}
+
+.flexContainer {
+    /* height: 72vh; */
+    display: flex;
+    flex-wrap: wrap;
+}

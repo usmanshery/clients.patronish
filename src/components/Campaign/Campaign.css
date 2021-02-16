@@ -1,0 +1,21 @@
+.question{
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.option > div {
+	margin-top: 0!important;
+	margin-bottom: 10px;
+}
+
+.questStmtRow {
+	max-width: 92%;
+	flex: 0 0 91.333333%;
+}
+
+.questBtns {
+	padding-left: 0px;
+	padding-right: 0px;
+	max-width: 4%;
+}
