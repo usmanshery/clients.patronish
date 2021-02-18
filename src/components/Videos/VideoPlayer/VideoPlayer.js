@@ -36,7 +36,7 @@ class VJSPlayer extends Component {
 				/> */}
 				<div style={{height: "100%"}}>
 					<VideoPlayer
-						className="player video-js"
+						className="videoPlayer"
 						controls={true}
 						src={{src: this.props.src, type: 'video/mp4'}}
 						onReady={this.onPlayerReady.bind(this)}

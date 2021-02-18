@@ -157,7 +157,10 @@ class Video extends Component {
 					<div
 						className="videoThumbnail"
 						style={{ "background-image": `url(${videoDetail.image ? videoDetail.image.url : "video_not_found.png"})`, "background-size": "cover", "background-repeat": "no-repeat" }}
-						onClick={() => { this.props.overlay(); this.playVideo(videoDetail.video.url); }}>
+						onClick={() => {
+							// this.props.overlay(); 
+							this.playVideo(videoDetail.video.url);
+						}}>
 					</div>
 					<div className="videoDecription">
 						<p>
@@ -187,16 +190,26 @@ class Video extends Component {
 	}
 
 	playVideo(videoUrl) {
-		this.setState({
-			videoUrl
-		});
+		if (this.state.videoUrl) {
+			this.setState({
+				videoUrl: undefined
+			}, () => {
+				this.setState({
+					videoUrl
+				});
+			});
+		} else {
+			this.setState({
+				videoUrl
+			});
+		}
 	}
 
 	closeVideo() {
 		this.setState({
 			videoUrl: undefined
 		});
-		this.props.closeVideo();
+		// this.props.closeVideo();
 	}
 
 	downloadVideo(url) {
@@ -214,17 +227,16 @@ class Video extends Component {
 
 		return (
 			<div>
-				<div id="overlay" className="overlay" style={{ display: showVideo }}></div>
-
 				{ this.props.albumName ? <h1>Campaign <b>{this.props.albumName}</b></h1> : <></>}
 
 				<div id="playlistWrapper" className="flexContainer">
-					{videoTable}
-				</div>
 
-				<div id="player" className="playerWrapper" style={{ display: showVideo }}>
-					<button className="closeButton" onClick={() => this.closeVideo()}>&#10006;</button>
-					{this.state.videoUrl ? <VJSPlayer src={this.state.videoUrl} /> : <></>}
+					<div id="player" className="videoPlayerCard" style={{ display: showVideo }}>
+						<button className="closeButton" onClick={() => this.closeVideo()}>&#10006;</button>
+						{this.state.videoUrl ? <VJSPlayer src={this.state.videoUrl} /> : <></>}
+					</div>
+
+					{videoTable}
 				</div>
 			</div>
 		);
