@@ -104,15 +104,14 @@ class App extends Component {
 		}
 
 		if (this.state.embededUrl) {
-			return <>
-				<h1>Embeded Url found</h1>
-				<div className="videoCard">
-					<div
-						className="videoThumbnail"
-						style={{ "background-image": "url(https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg)", "background-size": "cover", "background-repeat": "no-repeat" }}>
-					</div>
-				</div>
-			</>;
+			return <iframe 
+			style={
+				{
+					"background-image": "url(https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg)",
+					"background-size": "cover",
+					"background-repeat": "no-repeat" 
+					}}>
+			</iframe>;
 		}
 
 		if (this.props.loggedIn) {
