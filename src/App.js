@@ -3,6 +3,7 @@ import Admin from './components/Admin/Admin';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import PasswordReset from './components/Login/PasswordReset';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { pageLoadAction } from './store/session';
 import { ToastContainer, toast } from 'react-toastify';
@@ -27,7 +28,23 @@ const mapDispatchToProps = (dispatch) => {
 
 class App extends Component {
 
+	constructor(props) {
+		super(props);
+		this.asEmbededPage = this.asEmbededPage.bind(this);
+		this.state = {
+			embededUrl: undefined
+		};
+	}
+
 	componentDidMount() {
+		let embededUrl = this.asEmbededPage();
+		if (embededUrl) {
+			this.setState({
+				embededUrl
+			});
+			return;
+		}
+
 		if (!this.props.loggedIn)
 			this.props.onPageLoad();
 	}
@@ -69,11 +86,33 @@ class App extends Component {
 				break;
 		}
 	}
-	
+
+	asEmbededPage() {
+		// start url validation
+		const params = queryString.parse(window.location.search);
+		if (!params.video) {
+			return undefined;
+		} else {
+			return params.video;
+		}
+	}
+
 	render() {
 		let overlayStyle = 'none';
-		if(this.props.loading){
+		if (this.props.loading) {
 			overlayStyle = 'block';
+		}
+
+		if (this.state.embededUrl) {
+			return <>
+				<h1>Embeded Url found</h1>
+				<div className="videoCard">
+					<div
+						className="videoThumbnail"
+						style={{ "background-image": "url(https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg)", "background-size": "cover", "background-repeat": "no-repeat" }}>
+					</div>
+				</div>
+			</>;
 		}
 
 		if (this.props.loggedIn) {
@@ -89,8 +128,8 @@ class App extends Component {
 					draggable
 					pauseOnHover={false}
 				/>
-				<div id="loader" className="loader" style={{display: overlayStyle}}></div>
-				<div id="overlay" className="overlay" style={{display: overlayStyle}}></div>
+				<div id="loader" className="loader" style={{ display: overlayStyle }}></div>
+				<div id="overlay" className="overlay" style={{ display: overlayStyle }}></div>
 				<Admin />
 			</>;
 		} else {
