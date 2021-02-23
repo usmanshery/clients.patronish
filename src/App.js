@@ -109,11 +109,18 @@ class App extends Component {
 			return <div>
 				<MetaTags>
 					<title>Testing Title</title>
-					<meta name="description" content="Some description." />
-					<meta property="og:title" content="Patronish Review" />
-					<meta property="og:type" content="video.movie" />
+					<meta property="og:site_name" content="Patronish Site Name (site name)" />
+					<meta property="og:title" content="Patronish Review (Title)" />
+
 					<meta property="og:image" content="https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg" />
+					<meta property="og:image:width" content="480"></meta>
+					<meta property="og:image:height" content="360"></meta>
+
+					<meta property="og:description" content="Some Description." />
+					
+					<meta property="og:type" content="website" />
 					<meta property="og:url" content={`http://clients.patronish.com?video=${this.state.embededUrl}`} />
+					{/* <meta property="og:video" content="https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1611636169748.mp4" /> */}
 				</MetaTags>
 				<div>
 					<h1>THe actual content</h1>
