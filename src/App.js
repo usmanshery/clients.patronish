@@ -3,7 +3,6 @@ import Admin from './components/Admin/Admin';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import PasswordReset from './components/Login/PasswordReset';
-import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { pageLoadAction } from './store/session';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { notificationType } from './store/globals/codes';
 import * as nav from '../src/store/globals/nav';
 import './Styles.css';
+
+import queryString from 'query-string';
+import MetaTags from 'react-meta-tags';
 
 const mapStateToProps = state => {
 	return {
@@ -104,14 +106,19 @@ class App extends Component {
 		}
 
 		if (this.state.embededUrl) {
-			return <iframe 
-			style={
-				{
-					"background-image": "url(https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg)",
-					"background-size": "cover",
-					"background-repeat": "no-repeat" 
-					}}>
-			</iframe>;
+			return <div>
+				<MetaTags>
+					<title>Testing Title</title>
+					<meta name="description" content="Some description." />
+					<meta property="og:title" content="Patronish Review" />
+					<meta property="og:type" content="video.movie" />
+					<meta property="og:image" content="https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg" />
+					<meta property="og:url" content={`http://clients.patronish.com?video=${this.state.embededUrl}`} />
+				</MetaTags>
+				<div>
+					<h1>THe actual content</h1>
+				</div>
+			</div>;
 		}
 
 		if (this.props.loggedIn) {

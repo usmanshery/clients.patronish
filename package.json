@@ -26,6 +26,7 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
     "react-laag": "^1.8.0",
+    "react-meta-tags": "^1.0.1",
     "react-notify-toast": "^0.5.1",
     "react-pro-sidebar": "^0.4.4",
     "react-redux": "^7.2.1",
