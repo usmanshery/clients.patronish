@@ -36,6 +36,14 @@ class App extends Component {
 		this.state = {
 			embededUrl: undefined,
 		};
+
+		let embededUrl = this.asEmbededPage();
+		document
+			.querySelector('meta[property="og:image"]')
+			.setAttribute(
+				"content",
+				`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${embededUrl}`
+			);
 	}
 
 	componentDidMount() {
@@ -105,12 +113,6 @@ class App extends Component {
 		}
 
 		if (this.state.embededUrl) {
-			document
-				.querySelector('meta[property="og:image"]')
-				.setAttribute(
-					"content",
-					`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${this.state.embededUrl}`
-				);
 			return (
 				<div>
 					{/* <Helmet>
