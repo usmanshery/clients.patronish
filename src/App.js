@@ -1,40 +1,40 @@
-import React, { Component } from 'react';
-import Admin from './components/Admin/Admin';
-import Login from './components/Login/Login';
-import Register from './components/Login/Register';
-import PasswordReset from './components/Login/PasswordReset';
-import { connect } from 'react-redux';
-import { pageLoadAction } from './store/session';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { notificationType } from './store/globals/codes';
-import * as nav from '../src/store/globals/nav';
-import './Styles.css';
+import React, { Component } from "react";
+import Admin from "./components/Admin/Admin";
+import Login from "./components/Login/Login";
+import Register from "./components/Login/Register";
+import PasswordReset from "./components/Login/PasswordReset";
+import { connect } from "react-redux";
+import { pageLoadAction } from "./store/session";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { notificationType } from "./store/globals/codes";
+import * as nav from "../src/store/globals/nav";
+import "./Styles.css";
 
-import queryString from 'query-string';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from "react-helmet";
 
-const mapStateToProps = state => {
+import queryString from "query-string";
+
+const mapStateToProps = (state) => {
 	return {
 		loading: state.loading,
 		loggedIn: state.loggedIn,
-		activeModule: state.activeModule
-	}
-}
+		activeModule: state.activeModule,
+	};
+};
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onPageLoad: () => dispatch(pageLoadAction())
-	}
-}
+		onPageLoad: () => dispatch(pageLoadAction()),
+	};
+};
 
 class App extends Component {
-
 	constructor(props) {
 		super(props);
 		this.asEmbededPage = this.asEmbededPage.bind(this);
 		this.state = {
-			embededUrl: undefined
+			embededUrl: undefined,
 		};
 	}
 
@@ -42,13 +42,12 @@ class App extends Component {
 		let embededUrl = this.asEmbededPage();
 		if (embededUrl) {
 			this.setState({
-				embededUrl
+				embededUrl,
 			});
 			return;
 		}
 
-		if (!this.props.loggedIn)
-			this.props.onPageLoad();
+		if (!this.props.loggedIn) this.props.onPageLoad();
 	}
 
 	notify(type, content) {
@@ -100,69 +99,78 @@ class App extends Component {
 	}
 
 	render() {
-		let overlayStyle = 'none';
+		let overlayStyle = "none";
 		if (this.props.loading) {
-			overlayStyle = 'block';
+			overlayStyle = "block";
 		}
 
 		if (this.state.embededUrl) {
-			return <div>
-				<MetaTags>
-					<title>Testing Title</title>
-					{/* <meta property="og:site_name" content="Patronish Site Name (site name)" />
-					<meta property="og:title" content="Patronish Review (Title)" />
-
-					<meta property="og:image" content="https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1613590606143.jpg" />
-					<meta property="og:image:width" content="480"></meta>
-					<meta property="og:image:height" content="360"></meta>
-
-					<meta property="og:description" content="Some Description." />
-					
-					<meta property="og:type" content="website" />
-					<meta property="og:url" content={"http://clients.patronish.com"} /> */}
-					{/* <meta property="og:video" content="https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/1611636169748.mp4" /> */}
-					{/* <meta property="fb:app_id" content="1728677950650226"></meta> */}
-				</MetaTags>
+			return (
 				<div>
-					<h1>THe actual content</h1>
+					<Helmet>
+						<meta property="og:title" content="Patronish Review (Title)" />
+						<meta
+							property="og:image"
+							content={`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${this.state.embededUrl}`}
+						/>
+					</Helmet>
+					<div>
+						<h1>THe actual content</h1>
+					</div>
 				</div>
-			</div>;
+			);
 		}
 
 		if (this.props.loggedIn) {
-			return <>
-				<ToastContainer
-					position="top-right"
-					autoClose={1000}
-					hideProgressBar
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss={false}
-					draggable
-					pauseOnHover={false}
-				/>
-				<div id="loader" className="loader" style={{ display: overlayStyle }}></div>
-				<div id="overlay" className="overlay" style={{ display: overlayStyle }}></div>
-				<Admin />
-			</>;
+			return (
+				<>
+					<ToastContainer
+						position="top-right"
+						autoClose={1000}
+						hideProgressBar
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss={false}
+						draggable
+						pauseOnHover={false}
+					/>
+					<div id="loader" className="loader" style={{ display: overlayStyle }}></div>
+					<div id="overlay" className="overlay" style={{ display: overlayStyle }}></div>
+					<Admin />
+				</>
+			);
 		} else {
-			return <>
-				<ToastContainer
-					position="top-right"
-					autoClose={1000}
-					hideProgressBar
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss={false}
-					draggable
-					pauseOnHover={false}
-				/>
-				{this.props.activeModule === nav.modules.login ? <Login notify={this.notify} /> : <></>}
-				{this.props.activeModule === nav.modules.register ? <Register notify={this.notify} /> : <></>}
-				{this.props.activeModule === nav.modules.passwordReset ? <PasswordReset notify={this.notify} /> : <></>}
-			</>;
+			return (
+				<>
+					<ToastContainer
+						position="top-right"
+						autoClose={1000}
+						hideProgressBar
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss={false}
+						draggable
+						pauseOnHover={false}
+					/>
+					{this.props.activeModule === nav.modules.login ? (
+						<Login notify={this.notify} />
+					) : (
+						<></>
+					)}
+					{this.props.activeModule === nav.modules.register ? (
+						<Register notify={this.notify} />
+					) : (
+						<></>
+					)}
+					{this.props.activeModule === nav.modules.passwordReset ? (
+						<PasswordReset notify={this.notify} />
+					) : (
+						<></>
+					)}
+				</>
+			);
 		}
 	}
 }
