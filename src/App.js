@@ -11,7 +11,7 @@ import { notificationType } from "./store/globals/codes";
 import * as nav from "../src/store/globals/nav";
 import "./Styles.css";
 
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 
 import queryString from "query-string";
 
@@ -105,15 +105,22 @@ class App extends Component {
 		}
 
 		if (this.state.embededUrl) {
+			document
+				.querySelector('meta[property="og:image"]')
+				.setAttribute(
+					"content",
+					`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${this.state.embededUrl}`
+				);
 			return (
 				<div>
-					<Helmet>
+					{/* <Helmet>
 						<meta property="og:title" content="Patronish Review (Title)" />
 						<meta
 							property="og:image"
 							content={`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${this.state.embededUrl}`}
 						/>
-					</Helmet>
+					</Helmet> */}
+
 					<div>
 						<h1>THe actual content</h1>
 					</div>
