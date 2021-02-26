@@ -1,47 +1,56 @@
 .videoCard {
-    height: 200px;
-    width: 275px;
-    margin: 0px 5px 5px 0px;
+	height: 250px;
+	width: 300px;
+	margin: 0px 5px 5px 0px;
 }
 
 .videoPlayerCard {
-    flex: 1 0 100%;
-    background: rgba(128, 128, 128, 0.5);
-    border-radius: 1px 14px 1px 1px;
-    display: block;
-    margin-bottom: 8px;
+	flex: 1 0 100%;
+	background: rgba(128, 128, 128, 0.5);
+	border-radius: 1px 14px 1px 1px;
+	display: block;
+	margin-bottom: 8px;
 }
 
 .videoThumbnail {
-    width: 100%;
-    height: 70%;
-    background: black;
-    cursor: pointer;
-    border: 1px solid #bbbbbb;
-    /* padding: 5px;
+	width: 100%;
+	height: 70%;
+	background: black;
+	cursor: pointer;
+	border: 1px solid #bbbbbb;
+	/* padding: 5px;
     box-shadow: -1px 1px #dfdfdf, -2px 2px #cccccc; */
 }
 
-
 .videoDecription {
-    display: flex;
-    flex-wrap: wrap; 
+	display: flex;
+	flex-wrap: wrap;
 }
 
-.videoDecription p{
-    flex: 1 0 100%;
-    margin-bottom: 1px;
+.videoDecription p {
+	flex: 1 0 100%;
+	margin-bottom: 1px;
 }
 
-.videoDecription button{
-    padding: 0px 8px 0px 8px;
-    height: 2.0rem;
-    margin: 1px;
+.videoDecriptionText {
+	font-weight: bold;
+	font-size: large;
+	word-break: break-all;
+}
+
+.videoDescriptionDate {
+	font-size: small;
+}
+
+.videoDecription button {
+	padding: 0px 8px 0px 8px;
+	height: 2rem;
+	margin: 1px;
 }
 
 .flexContainer {
-    /* height: 72vh; */
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
+	/* height: 72vh; */
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
 }

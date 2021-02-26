@@ -1,31 +1,46 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import VJSPlayer from './VideoPlayer/VideoPlayer';
-import { clearVideoAction, onWaitAction, removeVideoAction } from '../../store/session';
-import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
-import { LinkedinShareButton, LinkedinIcon, RedditShareButton, RedditIcon } from 'react-share';
-import Modal from 'react-bootstrap/Modal'
-import './Style.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import VJSPlayer from "./VideoPlayer/VideoPlayer";
+import {
+	clearVideoAction,
+	onWaitAction,
+	removeVideoAction,
+} from "../../store/session";
+import {
+	FacebookShareButton,
+	FacebookIcon,
+	TwitterShareButton,
+	TwitterIcon,
+	WhatsappShareButton,
+	WhatsappIcon,
+} from "react-share";
+import {
+	LinkedinShareButton,
+	LinkedinIcon,
+	RedditShareButton,
+	RedditIcon,
+} from "react-share";
+import Modal from "react-bootstrap/Modal";
+import "./Style.css";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
 		campaignFilter: state.campaignData,
 		albumName: state.albumName,
 		albumList: state.albumList,
-		videoUrl: state.videoUrl
-	}
-}
+		videoUrl: state.videoUrl,
+	};
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		deleteVideo: (vidoeKey) => dispatch(removeVideoAction(vidoeKey)),
 		closeVideo: () => dispatch(clearVideoAction()),
-		overlay: () => dispatch(onWaitAction())
-	}
-}
+		overlay: () => dispatch(onWaitAction()),
+	};
+};
 
 class Video extends Component {
-
 	constructor(props) {
 		super(props);
 		this.generateTable = this.generateTable.bind(this);
@@ -34,20 +49,20 @@ class Video extends Component {
 		this.closeVideo = this.closeVideo.bind(this);
 
 		this.popups = {
-			shareVideo: 'shareVideo'
-		}
+			shareVideo: "shareVideo",
+		};
 
-		this.state = { 
+		this.state = {
 			videoUrl: undefined,
 			share: {
 				popup: false,
-				url: undefined
-			}
+				url: undefined,
+			},
 		};
 	}
 
 	generateTable() {
-		// album list: 
+		// album list:
 		if (!this.props.albumName) {
 			return <h3>No album selected</h3>;
 		}
@@ -56,8 +71,7 @@ class Video extends Component {
 		}
 
 		const tableRows = this.props.albumList.map((video, index) => {
-
-			let timestamp = video.key.toString()
+			let timestamp = video.key.toString();
 			timestamp = timestamp.substr(timestamp.indexOf("/") + 1);
 			timestamp = timestamp.substr(0, timestamp.indexOf("."));
 			let uploadDate = new Date(parseInt(timestamp)).toDateString();
@@ -66,16 +80,18 @@ class Video extends Component {
 				<tr key={video.key}>
 					<td>{index + 1}</td>
 					<td>{video.key}</td>
-					<td>
-						{uploadDate}
-					</td>
+					<td>{uploadDate}</td>
 					<td>
 						<div>
 							<button
 								type="button"
 								className="btn btn-outline-success"
 								data-ripple-color="dark"
-								onClick={() => { this.props.overlay(); this.playVideo(video.url); }}>
+								onClick={() => {
+									this.props.overlay();
+									this.playVideo(video.url);
+								}}
+							>
 								Play
 							</button>
 
@@ -83,7 +99,8 @@ class Video extends Component {
 								type="button"
 								className="btn btn-outline-primary"
 								data-ripple-color="dark"
-								onClick={() => this.downloadVideo(video.url)}>
+								onClick={() => this.downloadVideo(video.url)}
+							>
 								Download
 							</button>
 
@@ -91,51 +108,74 @@ class Video extends Component {
 								type="button"
 								className="btn btn-outline-danger"
 								data-ripple-color="dark"
-								onClick={() => { this.props.overlay(); this.props.deleteVideo(video.key); }}>
+								onClick={() => {
+									this.props.overlay();
+									this.props.deleteVideo(video.key);
+								}}
+							>
 								Delete
 							</button>
-
 						</div>
 					</td>
 					<td>
 						<div>
-							<FacebookShareButton style={{ "margin": "10px" }} url={video.url} quote={this.props.albumName} /* hashtag="#hashtag" */>
+							<FacebookShareButton
+								style={{ margin: "10px" }}
+								url={video.url}
+								quote={this.props.albumName} /* hashtag="#hashtag" */
+							>
 								<FacebookIcon size={36} />
 							</FacebookShareButton>
 
-							<TwitterShareButton style={{ "margin": "10px" }} url={video.url} title={this.props.albumName}>
+							<TwitterShareButton
+								style={{ margin: "10px" }}
+								url={video.url}
+								title={this.props.albumName}
+							>
 								<TwitterIcon size={36} />
 							</TwitterShareButton>
 
-							<RedditShareButton style={{ "margin": "10px" }} url={video.url} title={this.props.albumName}>
+							<RedditShareButton
+								style={{ margin: "10px" }}
+								url={video.url}
+								title={this.props.albumName}
+							>
 								<RedditIcon size={36} />
 							</RedditShareButton>
 
-							<WhatsappShareButton style={{ "margin": "10px" }} url={video.url} title={this.props.albumName}>
+							<WhatsappShareButton
+								style={{ margin: "10px" }}
+								url={video.url}
+								title={this.props.albumName}
+							>
 								<WhatsappIcon size={36} />
 							</WhatsappShareButton>
 
-							<LinkedinShareButton style={{ "margin": "10px" }} url={video.url} title={this.props.albumName} source={"http://clients.patronish.com"}>
+							<LinkedinShareButton
+								style={{ margin: "10px" }}
+								url={video.url}
+								title={this.props.albumName}
+								source={"http://clients.patronish.com"}
+							>
 								<LinkedinIcon size={36} />
 							</LinkedinShareButton>
 						</div>
 					</td>
 				</tr>
-			)
+			);
 		});
 
-		const videoTable =
+		const videoTable = (
 			<table id="playlist">
-				<tbody>
-					{tableRows}
-				</tbody>
-			</table>;
+				<tbody>{tableRows}</tbody>
+			</table>
+		);
 
 		return videoTable;
 	}
 
 	generateTable2() {
-		// album list: 
+		// album list:
 		if (!this.props.albumName) {
 			return <h3>No album selected</h3>;
 		}
@@ -143,66 +183,90 @@ class Video extends Component {
 			return <h3>No videos in this album</h3>;
 		}
 
-
 		let videoList = this.props.albumList
-			.filter(item => item.url.endsWith(".mp4"))
-			.map(videoURL => { return { "video": videoURL } })
-			.map(videoObj => {
+			.filter((item) => item.url.endsWith(".mp4"))
+			.map((videoURL) => {
+				return { video: videoURL };
+			})
+			.map((videoObj) => {
 				// find image url (key value pair)
-				let searchResult = this.props.albumList.filter(obj => !obj.url.endsWith(".mp4") && obj.url.includes(videoObj.video.key.substring(0, videoObj.video.key.length - 4)));
+				let searchResult = this.props.albumList.filter(
+					(obj) =>
+						!obj.url.endsWith(".mp4") &&
+						obj.url.includes(videoObj.video.key.substring(0, videoObj.video.key.length - 4))
+				);
 				return {
 					...videoObj,
-					"image": searchResult.length >= 1 ? searchResult[0] : undefined
+					image: searchResult.length >= 1 ? searchResult[0] : undefined,
 				};
 			});
 		console.log(process.env.PUBLIC_URL);
 		const videoCards = videoList.map((videoDetail, index) => {
 			// for video creation/upload date
-			// let timestamp = videoDetail.video.key.toString()
-			// timestamp = timestamp.substr(timestamp.indexOf("/") + 1);
-			// timestamp = timestamp.substr(0, timestamp.indexOf("."));
-			// let uploadDate = new Date(parseInt(timestamp)).toDateString();
+			let timestamp = videoDetail.video.key.toString();
+			timestamp = timestamp.substr(timestamp.indexOf("/") + 1);
+			timestamp = timestamp.substr(0, timestamp.indexOf("."));
+			let uploadDate = new Date(parseInt(timestamp)).toDateString();
 			return (
 				<div className="videoCard">
 					<div
 						className="videoThumbnail"
-						style={{ "background-image": `url(${videoDetail.image ? videoDetail.image.url : "video_not_found.png"})`, "background-size": "cover", "background-repeat": "no-repeat" }}
+						style={{
+							"background-image": `url(${
+								videoDetail.image ? videoDetail.image.url : "video_not_found.png"
+							})`,
+							"background-size": "cover",
+							"background-repeat": "no-repeat",
+						}}
 						onClick={() => {
-							// this.props.overlay(); 
+							// this.props.overlay();
 							this.playVideo(videoDetail.video.url);
-						}}>
-					</div>
+						}}
+					></div>
 					<div className="videoDecription">
-						<p>
-							{videoDetail.video.key}
-						</p>
+						<p className="videoDecriptionText">{videoDetail.video.key}</p>
+						<p className="videoDescriptionDate">{uploadDate}</p>
 						<button
 							type="button"
 							className="btn-outline-primary"
 							data-ripple-color="dark"
-							onClick={() => this.downloadVideo(videoDetail.video.url)}>
+							onClick={() => this.downloadVideo(videoDetail.video.url)}
+						>
 							Download
-							</button>
+						</button>
 
 						<button
 							type="button"
 							className="btn-outline-danger"
 							data-ripple-color="dark"
-							onClick={() => { this.props.overlay(); this.props.deleteVideo(videoDetail.video.key); }}>
+							onClick={() => {
+								this.props.overlay();
+								this.props.deleteVideo(videoDetail.video.key);
+							}}
+						>
 							Delete
-					</button>
+						</button>
 						<button
 							type="button"
 							className="btn-outline-info"
 							data-ripple-color="dark"
-
-							onClick={() => {  this.togglePopups(this.popups.shareVideo, true, `http://clients.patronish.com/?video=${videoDetail.video.key.substr(0, videoDetail.video.key.length - 4)}`) }}>
+							onClick={() => {
+								this.togglePopups(
+									this.popups.shareVideo,
+									true,
+									`http://clients.patronish.com/?video=${videoDetail.video.key.substr(
+										0,
+										videoDetail.video.key.length - 4
+									)}`
+								);
+							}}
+						>
 							Share&nbsp;
 							<i class="fa fa-share"></i>
-					</button>
+						</button>
 					</div>
 				</div>
-			)
+			);
 		});
 
 		return videoCards;
@@ -210,23 +274,26 @@ class Video extends Component {
 
 	playVideo(videoUrl) {
 		if (this.state.videoUrl) {
-			this.setState({
-				videoUrl: undefined
-			}, () => {
-				this.setState({
-					videoUrl
-				});
-			});
+			this.setState(
+				{
+					videoUrl: undefined,
+				},
+				() => {
+					this.setState({
+						videoUrl,
+					});
+				}
+			);
 		} else {
 			this.setState({
-				videoUrl
+				videoUrl,
 			});
 		}
 	}
 
 	closeVideo() {
 		this.setState({
-			videoUrl: undefined
+			videoUrl: undefined,
 		});
 		// this.props.closeVideo();
 	}
@@ -242,67 +309,100 @@ class Video extends Component {
 				this.setState({
 					share: {
 						url: option === undefined ? this.state.share.url : option,
-						popup: state === undefined ? !this.state.share.popup : state
-					}
+						popup: state === undefined ? !this.state.share.popup : state,
+					},
 				});
 				break;
-			default:break;
+			default:
+				break;
 		}
 	}
 
 	render() {
-		const mailListPopup = // !this.state.mailList.campaign ? undefined :
-			<Modal show={this.state.share.popup} onHide={() => this.togglePopups(this.popups.shareVideo)}>
+		const mailListPopup = ( // !this.state.mailList.campaign ? undefined :
+			<Modal
+				show={this.state.share.popup}
+				onHide={() => this.togglePopups(this.popups.shareVideo)}
+			>
 				<Modal.Header closeButton>
 					<Modal.Title>Share Review Video</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<div>
 						{/* <button style={{ float: "right", padding: "10px 20px 10px 20px"}} onClick={this.sendMailingList}>Send</button> */}
-						<FacebookShareButton style={{ "margin": "10px" }} url={this.state.share.url} quote={this.props.albumName} /* hashtag="#hashtag" */>
-								<FacebookIcon size={36} />
-							</FacebookShareButton>
+						<FacebookShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							quote={this.props.albumName} /* hashtag="#hashtag" */
+						>
+							<FacebookIcon size={36} />
+						</FacebookShareButton>
 
-							<TwitterShareButton style={{ "margin": "10px" }} url={this.state.share.url} title={this.props.albumName}>
-								<TwitterIcon size={36} />
-							</TwitterShareButton>
+						<TwitterShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+						>
+							<TwitterIcon size={36} />
+						</TwitterShareButton>
 
-							<RedditShareButton style={{ "margin": "10px" }} url={this.state.share.url} title={this.props.albumName}>
-								<RedditIcon size={36} />
-							</RedditShareButton>
+						<RedditShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+						>
+							<RedditIcon size={36} />
+						</RedditShareButton>
 
-							<WhatsappShareButton style={{ "margin": "10px" }} url={this.state.share.url} title={this.props.albumName}>
-								<WhatsappIcon size={36} />
-							</WhatsappShareButton>
+						<WhatsappShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+						>
+							<WhatsappIcon size={36} />
+						</WhatsappShareButton>
 
-							<LinkedinShareButton style={{ "margin": "10px" }} url={this.state.share.url} title={this.props.albumName} source={"http://clients.patronish.com"}>
-								<LinkedinIcon size={36} />
-							</LinkedinShareButton>
+						<LinkedinShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+							source={"http://clients.patronish.com"}
+						>
+							<LinkedinIcon size={36} />
+						</LinkedinShareButton>
 					</div>
 				</Modal.Body>
 				{/* <Modal.Footer></Modal.Footer> */}
-			</Modal>;
+			</Modal>
+		);
 
 		const videoTable = this.generateTable2();
 
-		let showVideo = 'none';
+		let showVideo = "none";
 
 		if (this.state.videoUrl) {
-			showVideo = 'block';
+			showVideo = "block";
 		}
 
 		return (
 			<div>
 				{mailListPopup}
-				{ this.props.albumName ? <h1>Campaign <b>{this.props.albumName}</b></h1> : <></>}
+				{this.props.albumName ? (
+					<h1>
+						Campaign <b>{this.props.albumName}</b>
+					</h1>
+				) : (
+					<></>
+				)}
 
 				<div id="playlistWrapper" className="flexContainer">
-
 					<div id="player" className="videoPlayerCard" style={{ display: showVideo }}>
-						<button className="closeButton" onClick={() => this.closeVideo()}>&#10006;</button>
+						<button className="closeButton" onClick={() => this.closeVideo()}>
+							&#10006;
+						</button>
 						{this.state.videoUrl ? <VJSPlayer src={this.state.videoUrl} /> : <></>}
 					</div>
-					
+
 					{videoTable}
 				</div>
 			</div>
