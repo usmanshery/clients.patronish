@@ -9,11 +9,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { notificationType } from "./store/globals/codes";
 import * as nav from "../src/store/globals/nav";
+import Spinner from "react-bootstrap/Spinner";
 import "./Styles.css";
 
 // import { Helmet } from "react-helmet";
 
 import queryString from "query-string";
+import VJSPlayer from "./components/Videos/VideoPlayer/VideoPlayer";
 
 const mapStateToProps = (state) => {
 	return {
@@ -33,17 +35,10 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.asEmbededPage = this.asEmbededPage.bind(this);
+		this.validateEmbededUrl = this.validateEmbededUrl.bind(this);
 		this.state = {
 			embededUrl: undefined,
 		};
-
-		let embededUrl = this.asEmbededPage();
-		document
-			.querySelector('meta[property="og:image"]')
-			.setAttribute(
-				"content",
-				`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${embededUrl}`
-			);
 	}
 
 	componentDidMount() {
@@ -51,8 +46,25 @@ class App extends Component {
 		if (embededUrl) {
 			this.setState({
 				embededUrl,
+				validating: true,
+				valid: false,
+				msg: "Video Not Found. URL is invalid or video has been deleted.",
 			});
-			return;
+
+			let baseUrl;
+			if (window.env === "dev") {
+				baseUrl = window.devURL;
+				console.log("developmental server");
+			} else {
+				baseUrl = window.prodURL;
+			}
+			baseUrl = baseUrl + "/video/";
+
+			const url = baseUrl + embededUrl.replace("/", "$");
+			console.log("Video verification url: ", url);
+			fetch(url, { method: "GET" })
+				.then((response) => response.json())
+				.then(this.validateEmbededUrl);
 		}
 
 		if (!this.props.loggedIn) this.props.onPageLoad();
@@ -102,7 +114,22 @@ class App extends Component {
 		if (!params.video) {
 			return undefined;
 		} else {
+			// further verification goes here
 			return params.video;
+		}
+	}
+
+	validateEmbededUrl(json) {
+		if (!json.success) {
+			this.setState({
+				validating: false,
+				valid: false,
+			});
+		} else {
+			this.setState({
+				validating: false,
+				valid: true,
+			});
 		}
 	}
 
@@ -113,19 +140,34 @@ class App extends Component {
 		}
 
 		if (this.state.embededUrl) {
-			return (
-				<div>
-					{/* <Helmet>
-						<meta property="og:title" content="Patronish Review (Title)" />
-						<meta
-							property="og:image"
-							content={`https://temprecordpatronishreviewstorage.s3.us-east-2.amazonaws.com/test/${this.state.embededUrl}`}
+			if (this.state.validating) {
+				return (
+					<div className="loading">
+						<Spinner
+							animation="border"
+							role="status"
+							style={{
+								width: "100px",
+								height: "100px",
+								border: "0.4em solid currentColor",
+								borderRightColor: "transparent",
+							}}
 						/>
-					</Helmet> */}
-
-					<div>
-						<h1>THe actual content</h1>
 					</div>
+				);
+			}
+			// if url was found to be invalid, show error screen
+			if (!this.state.valid) {
+				return (
+					<div className="loading-failed">
+						<h1>{this.state.msg}</h1>
+					</div>
+				);
+			}
+
+			return (
+				<div id="player" className="videoPlayerCard" style={{ display: showVideo }}>
+					{this.state.videoUrl ? <VJSPlayer src={this.state.videoUrl} /> : <></>}
 				</div>
 			);
 		}
