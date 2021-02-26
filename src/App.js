@@ -129,6 +129,7 @@ class App extends Component {
 			this.setState({
 				validating: false,
 				valid: true,
+				videoUrl: json.url
 			});
 		}
 	}
@@ -166,8 +167,8 @@ class App extends Component {
 			}
 
 			return (
-				<div id="player" className="videoPlayerCard" style={{ display: showVideo }}>
-					{this.state.videoUrl ? <VJSPlayer src={this.state.videoUrl} /> : <></>}
+				<div>
+					<VJSPlayer src={this.state.videoUrl} fullScreen />
 				</div>
 			);
 		}

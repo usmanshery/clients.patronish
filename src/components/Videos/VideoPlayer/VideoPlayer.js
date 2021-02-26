@@ -26,17 +26,9 @@ class VJSPlayer extends Component {
 			return (<></>);
 		return (
 			<>
-				{/* <VideoPlayer
-					className="player video-js"
-					controls={true}
-					src={{ src: this.props.src, type: 'video/mp4' }}
-					onReady={this.onPlayerReady.bind(this)}
-					onPlay={this.onVideoPlay.bind(this)}
-					onEnd={this.onVideoEnd.bind(this)}
-				/> */}
 				<div style={{height: "100%"}}>
 					<VideoPlayer
-						className="videoPlayer"
+						className={this.props.fullScreen ? "videoPlayerFullScreen" : "videoPlayer"}
 						controls={true}
 						src={{src: this.props.src, type: 'video/mp4'}}
 						onReady={this.onPlayerReady.bind(this)}
