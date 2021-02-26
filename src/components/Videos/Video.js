@@ -59,6 +59,67 @@ class Video extends Component {
 				url: undefined,
 			},
 		};
+
+		this.mailListPopup = ( // !this.state.mailList.campaign ? undefined :
+			<Modal
+				show={this.state.share.popup}
+				onHide={() => this.togglePopups(this.popups.shareVideo)}
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Share Review Video</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div>
+						{/* <button style={{ float: "right", padding: "10px 20px 10px 20px"}} onClick={this.sendMailingList}>Send</button> */}
+						<FacebookShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							quote={this.props.albumName} /* hashtag="#hashtag" */
+						>
+							<FacebookIcon size={36} />
+						</FacebookShareButton>
+
+						<TwitterShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+						>
+							<TwitterIcon size={36} />
+						</TwitterShareButton>
+
+						<RedditShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+						>
+							<RedditIcon size={36} />
+						</RedditShareButton>
+
+						<WhatsappShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+						>
+							<WhatsappIcon size={36} />
+						</WhatsappShareButton>
+
+						<LinkedinShareButton
+							style={{ margin: "10px" }}
+							url={this.state.share.url}
+							title={this.props.albumName}
+							source={"http://clients.patronish.com"}
+						>
+							<LinkedinIcon size={36} />
+						</LinkedinShareButton>
+					</div>
+				</Modal.Body>
+				{/* <Modal.Footer></Modal.Footer> */}
+			</Modal>
+		);
+	}
+
+	componentDidUpdate() {
+		//
 	}
 
 	generateTable() {
@@ -200,7 +261,7 @@ class Video extends Component {
 					image: searchResult.length >= 1 ? searchResult[0] : undefined,
 				};
 			});
-		console.log(process.env.PUBLIC_URL);
+		// console.log(process.env.PUBLIC_URL);
 		const videoCards = videoList.map((videoDetail, index) => {
 			// for video creation/upload date
 			let timestamp = videoDetail.video.key.toString();
@@ -292,10 +353,10 @@ class Video extends Component {
 	}
 
 	closeVideo() {
-		this.setState({
-			videoUrl: undefined,
-		});
-		// this.props.closeVideo();
+		if (this.state.videoUrl)
+			this.setState({
+				videoUrl: undefined,
+			});
 	}
 
 	downloadVideo(url) {
@@ -319,74 +380,23 @@ class Video extends Component {
 	}
 
 	render() {
-		const mailListPopup = ( // !this.state.mailList.campaign ? undefined :
-			<Modal
-				show={this.state.share.popup}
-				onHide={() => this.togglePopups(this.popups.shareVideo)}
-			>
-				<Modal.Header closeButton>
-					<Modal.Title>Share Review Video</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<div>
-						{/* <button style={{ float: "right", padding: "10px 20px 10px 20px"}} onClick={this.sendMailingList}>Send</button> */}
-						<FacebookShareButton
-							style={{ margin: "10px" }}
-							url={this.state.share.url}
-							quote={this.props.albumName} /* hashtag="#hashtag" */
-						>
-							<FacebookIcon size={36} />
-						</FacebookShareButton>
-
-						<TwitterShareButton
-							style={{ margin: "10px" }}
-							url={this.state.share.url}
-							title={this.props.albumName}
-						>
-							<TwitterIcon size={36} />
-						</TwitterShareButton>
-
-						<RedditShareButton
-							style={{ margin: "10px" }}
-							url={this.state.share.url}
-							title={this.props.albumName}
-						>
-							<RedditIcon size={36} />
-						</RedditShareButton>
-
-						<WhatsappShareButton
-							style={{ margin: "10px" }}
-							url={this.state.share.url}
-							title={this.props.albumName}
-						>
-							<WhatsappIcon size={36} />
-						</WhatsappShareButton>
-
-						<LinkedinShareButton
-							style={{ margin: "10px" }}
-							url={this.state.share.url}
-							title={this.props.albumName}
-							source={"http://clients.patronish.com"}
-						>
-							<LinkedinIcon size={36} />
-						</LinkedinShareButton>
-					</div>
-				</Modal.Body>
-				{/* <Modal.Footer></Modal.Footer> */}
-			</Modal>
-		);
-
 		const videoTable = this.generateTable2();
 
 		let showVideo = "none";
 
 		if (this.state.videoUrl) {
-			showVideo = "block";
+			if (
+				this.props.albumList &&
+				this.props.albumList.filter((item) => item.url === this.state.videoUrl)
+					.length === 1
+			)
+				showVideo = "block";
+			else this.closeVideo();
 		}
 
 		return (
 			<div>
-				{mailListPopup}
+				{this.mailListPopup}
 				{this.props.albumName ? (
 					<h1>
 						Campaign <b>{this.props.albumName}</b>
