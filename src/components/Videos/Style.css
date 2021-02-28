@@ -27,15 +27,31 @@
 	flex-wrap: wrap;
 }
 
-.videoDecription p {
+.videoDecriptionTextContainer {
+	margin-bottom: 1px;
+	width: 80%;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.videoDecriptionComponentsContainer {
+	margin-bottom: 1px;
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* .videoDecription * {
 	flex: 1 0 100%;
 	margin-bottom: 1px;
-}
+} */
 
 .videoDecriptionText {
 	font-weight: bold;
 	font-size: large;
 	word-break: break-all;
+	margin-bottom: 1px;
 }
 
 .videoDescriptionDate {

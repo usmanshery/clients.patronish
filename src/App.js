@@ -58,9 +58,9 @@ class App extends Component {
 			} else {
 				baseUrl = window.prodURL;
 			}
-			baseUrl = baseUrl + "/video/";
+			baseUrl = baseUrl + "/videos/isPublic/";
 
-			const url = baseUrl + embededUrl.replace("/", "$");
+			const url = baseUrl + embededUrl;
 			console.log("Video verification url: ", url);
 			fetch(url, { method: "GET" })
 				.then((response) => response.json())
@@ -120,16 +120,18 @@ class App extends Component {
 	}
 
 	validateEmbededUrl(json) {
+		console.log(json);
 		if (!json.success) {
 			this.setState({
 				validating: false,
 				valid: false,
+				msg: json.err,
 			});
 		} else {
 			this.setState({
 				validating: false,
 				valid: true,
-				videoUrl: json.url
+				videoUrl: json.url,
 			});
 		}
 	}
@@ -176,17 +178,7 @@ class App extends Component {
 		if (this.props.loggedIn) {
 			return (
 				<>
-					<ToastContainer
-						position="top-right"
-						autoClose={1000}
-						hideProgressBar
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss={false}
-						draggable
-						pauseOnHover={false}
-					/>
+					<ToastContainer position="top-right" autoClose={1000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss={false} draggable pauseOnHover={false} />
 					<div id="loader" className="loader" style={{ display: overlayStyle }}></div>
 					<div id="overlay" className="overlay" style={{ display: overlayStyle }}></div>
 					<Admin />
@@ -195,32 +187,10 @@ class App extends Component {
 		} else {
 			return (
 				<>
-					<ToastContainer
-						position="top-right"
-						autoClose={1000}
-						hideProgressBar
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss={false}
-						draggable
-						pauseOnHover={false}
-					/>
-					{this.props.activeModule === nav.modules.login ? (
-						<Login notify={this.notify} />
-					) : (
-						<></>
-					)}
-					{this.props.activeModule === nav.modules.register ? (
-						<Register notify={this.notify} />
-					) : (
-						<></>
-					)}
-					{this.props.activeModule === nav.modules.passwordReset ? (
-						<PasswordReset notify={this.notify} />
-					) : (
-						<></>
-					)}
+					<ToastContainer position="top-right" autoClose={1000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss={false} draggable pauseOnHover={false} />
+					{this.props.activeModule === nav.modules.login ? <Login notify={this.notify} /> : <></>}
+					{this.props.activeModule === nav.modules.register ? <Register notify={this.notify} /> : <></>}
+					{this.props.activeModule === nav.modules.passwordReset ? <PasswordReset notify={this.notify} /> : <></>}
 				</>
 			);
 		}
