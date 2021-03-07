@@ -333,8 +333,28 @@ const methods = {
 };
 
 // login, register, password-reset and session
-export const loginAction = (email, password, cb) =>
-	apiCall({
+// export const loginAction = (email, password, cb) =>
+// 	apiCall({
+// 		url: loginUrl,
+// 		callParams: {
+// 			method: methods.post,
+// 			headers,
+// 			credentials: "include",
+// 			body: JSON.stringify({
+// 				email,
+// 				password,
+// 			}),
+// 		},
+// 		cb,
+// 		onSuccess: onLogin.type,
+// 		onFailure: onLogin.type,
+// 	});
+
+export const loginAction = (email, password, cb) => {
+	console.log("DEBUG", email, password);
+	console.log("DEBUG 2:", { email, password });
+	console.log("DEBUG 3:", JSON.stringify({ email, password }));
+	return apiCall({
 		url: loginUrl,
 		callParams: {
 			method: methods.post,
@@ -349,6 +369,7 @@ export const loginAction = (email, password, cb) =>
 		onSuccess: onLogin.type,
 		onFailure: onLogin.type,
 	});
+};
 
 export const registerAction = (newUser, cb) =>
 	apiCall({

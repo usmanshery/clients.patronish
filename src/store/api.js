@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction } from "@reduxjs/toolkit";
 
 export const apiCall = createAction("apiCall");
 export const apiSyncCall = createAction("apiSyncCall");

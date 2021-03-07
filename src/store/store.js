@@ -1,13 +1,10 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import reducer from './session';
-import api from './middleware/api';
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import reducer from "./session";
+import api from "./middleware/api";
 
 const store = configureStore({
 	reducer,
-	middleware: [
-		...getDefaultMiddleware(),
-		api
-	]
+	middleware: [...getDefaultMiddleware(), api],
 });
 
 export default store;
