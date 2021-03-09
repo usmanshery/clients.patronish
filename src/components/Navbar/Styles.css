@@ -1,0 +1,36 @@
+.navbarModuleButtons p {
+	font-size: 1.05rem;
+	font-weight: 300;
+	color: white !important;
+	text-transform: none;
+	margin-bottom: 0px;
+}
+
+button.navbarModuleButtons:focus {
+	outline: 0;
+}
+
+/* Side bar */
+.softBorder p {
+	border: 0.5px solid rgb(210 210 210 / 50%);
+	padding: 0px 3px 0px 3px;
+	border-radius: 4px;
+}
+
+.sidebarLinks p {
+	font-weight: 300;
+	color: #ffffff83 !important;
+	text-transform: none;
+	margin-bottom: 0px;
+}
+
+.sidebarMainLink p {
+	font-size: 1rem;
+}
+.sidebarSubLink p {
+	font-size: 0.8rem;
+}
+
+button.sidebarLinks:focus {
+	outline: 0;
+}

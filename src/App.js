@@ -178,7 +178,17 @@ class App extends Component {
 		if (this.props.loggedIn) {
 			return (
 				<>
-					<ToastContainer position="top-right" autoClose={1000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss={false} draggable pauseOnHover={false} />
+					<ToastContainer
+						position="top-right"
+						autoClose={1000}
+						hideProgressBar
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss={false}
+						draggable
+						pauseOnHover={false}
+					/>
 					<div id="loader" className="loader" style={{ display: overlayStyle }}></div>
 					<div id="overlay" className="overlay" style={{ display: overlayStyle }}></div>
 					<Admin />
@@ -187,7 +197,17 @@ class App extends Component {
 		} else {
 			return (
 				<>
-					<ToastContainer position="top-right" autoClose={1000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss={false} draggable pauseOnHover={false} />
+					<ToastContainer
+						position="top-right"
+						autoClose={1000}
+						hideProgressBar
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss={false}
+						draggable
+						pauseOnHover={false}
+					/>
 					{this.props.activeModule === nav.modules.login ? <Login notify={this.notify} /> : <></>}
 					{this.props.activeModule === nav.modules.register ? <Register notify={this.notify} /> : <></>}
 					{this.props.activeModule === nav.modules.passwordReset ? <PasswordReset notify={this.notify} /> : <></>}
